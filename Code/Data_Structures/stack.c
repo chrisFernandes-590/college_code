@@ -10,12 +10,11 @@ typedef struct
 void push(Stack *s, int value){
     if (s->top == SIZE - 1)
     {
-        printf("Stack Overflow");
-    }else{
+        printf("Stack Overflow\n");
+    } else {
         s->top++;
         s->arr[s->top] = value;
     }
-    
 }
 
 void display(Stack *s){
@@ -28,6 +27,23 @@ void display(Stack *s){
     
 }
 
+int pop(Stack *s){
+    if(s->top == -1){
+        printf("Stack Underflow\n");
+    }
+    int top_element = s->arr[s->top];
+    s->top--;
+    return top_element;
+}
+
+int stackTop(Stack *s){
+    if(s->top == -1){
+        printf("Stack is Empty");
+        return -404;
+    }
+    int top_element = s->arr[s->top];
+    return top_element;
+}
 int main(){
     Stack s;
     s.top = -1;
@@ -38,6 +54,13 @@ int main(){
     push(&s, 1134);
     push(&s, 112772);
     display(&s);
+    printf("\n");
+    pop(&s);
+    pop(&s);
+    push(&s, 112772);
+    pop(&s);
+    display(&s);
+    printf("\nTop Element: %d\n", stackTop(&s));
     
 
     return 0;
