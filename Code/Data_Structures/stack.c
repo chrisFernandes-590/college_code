@@ -11,6 +11,7 @@ void push(Stack *s, int value){
     if (s->top == SIZE - 1)
     {
         printf("Stack Overflow\n");
+        // return "\0";
     } else {
         s->top++;
         s->arr[s->top] = value;
@@ -39,7 +40,7 @@ int pop(Stack *s){
 int stackTop(Stack *s){
     if(s->top == -1){
         printf("Stack is Empty");
-        return -404;
+        return "\0";
     }
     int top_element = s->arr[s->top];
     return top_element;
