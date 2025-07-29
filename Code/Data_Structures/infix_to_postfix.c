@@ -7,61 +7,62 @@ typedef struct
 {
     char arr[SIZE];
     int top;
-}Stack;
+} Stack;
 
-void push(Stack *s, char value){
+void push(Stack *s, char value)
+{
     if (s->top == SIZE - 1)
     {
         printf("Stack Overflow\n");
-    } else {
-        s->top++;
-        s->arr[s->top] = value;
     }
-}
-
-char pop(Stack *s){
-    if(s->top == -1){
-        printf("Stack Underflow\n");
-    }
-    int top_element = s->arr[s->top];
-    s->top--;
-    return top_element;
-}
-
-void display(Stack *s){
-    for (int i = s->top; i >= 0; i--)
+    else
     {
-        printf("%d", s->arr[i]);
-        printf("\n");
-    }    
+        s->arr[++s->top] = value;
+    }
 }
 
-char stackTop(Stack *s){
-    if(s->top == -1){
-        printf("Stack is Empty");
+char pop(Stack *s)
+{
+    if (s->top == -1)
+    {
+        printf("Stack Underflow\n");
         return '\0';
     }
-    int top_element = s->arr[s->top];
-    return top_element;
+    return s->arr[s->top--];
 }
 
-void init_Stack(Stack *s){
+char stackTop(Stack *s)
+{
+    if (s->top == -1)
+        return '\0';
+    return s->arr[s->top];
+}
+
+void init_Stack(Stack *s)
+{
     s->top = -1;
 }
 
-int is_empty(Stack *s){
+int is_empty(Stack *s)
+{
     return s->top == -1;
 }
 
-int precedence(char element){
-    if(element == '(') return 5;
-    if(element == '^') return 4;
-    if(element == '*' || element == '/') return 3;
-    if(element == '+' || element == '-') return 1;
+int precedence(char element)
+{
+    if (element == '(')
+        return 0;
+    if (element == '^')
+        return 3;
+    if (element == '*' || element == '/')
+        return 2;
+    if (element == '+' || element == '-')
+        return 1;
     return -1;
 }
 
-void getInfixExpression(char *infix){
+void getInfixExpression(char *infix)
+{
     printf("Enter the infix expression: ");
     fgets(infix, SIZE, stdin);
     size_t len = strlen(infix);
@@ -69,50 +70,61 @@ void getInfixExpression(char *infix){
     {
         infix[len - 1] = '\0';
     }
-    
 }
 
-int main(){
-    // Operators stack
-    Stack operators;
+void display(Stack *s)
+{
+    for (int i = 0; i <= s->top; i++)
+    {
+        printf("%c", s->arr[i]);
+    }
+    printf("\n");
+}
+
+int main()
+{
+    Stack operators, postfix;
     init_Stack(&operators);
-    
-    // Postfix expr
-    Stack postfix;
     init_Stack(&postfix);
 
-    // Infix expr
-    char infix[SIZE]; 
+    char infix[SIZE];
     getInfixExpression(infix);
 
-    for (int i = 0; infix[i] < '\0'; i++){
-        int current_char = infix[i];
+    for (int i = 0; infix[i] != '\0'; i++)
+    {
+        char current_char = infix[i];
 
         if (isalnum(current_char))
         {
             push(&postfix, current_char);
-        }else if (current_char == '(')
+        }
+        else if (current_char == '(')
         {
             push(&operators, current_char);
-        }else if(current_char == ')'){
+        }
+        else if (current_char == ')')
+        {
             while (!is_empty(&operators) && stackTop(&operators) != '(')
-            {                
-                char opr_pop = pop(&operators);
-                push(&postfix, opr_pop);
+            {
+                push(&postfix, pop(&operators));
             }
-            if(!is_empty(&operators) && stackTop(&operators) == ')'){
+            if (!is_empty(&operators) && stackTop(&operators) == '(')
+            {
                 pop(&operators);
-            }else return '\0';            
-        }else{
-            while (!is_empty(&operators) && precedence(current_char) <= stackTop(&operators))
-            {
-                char opr_pop = pop(&operators);
-                push(&postfix, opr_pop);
             }
-            if (!is_empty(&operators) && precedence(current_char) > stackTop(&operators))
+            else
             {
-                push(&operators, current_char);
+                printf("Mismatched parentheses\n");
+                return 1;
             }
+        }
+        else
+        {
+            while (!is_empty(&operators) && precedence(current_char) <= precedence(stackTop(&operators)))
+            {
+                push(&postfix, pop(&operators));
+            }
+            push(&operators, current_char);
         }
     }
 
@@ -120,13 +132,13 @@ int main(){
     {
         if (stackTop(&operators) == '(')
         {
-          break;  
+            printf("Mismatched parentheses\n");
+            return 1;
         }
-        char opr_pop = pop(&operators);
-        push(&postfix, opr_pop);
+        push(&postfix, pop(&operators));
     }
 
-    push(&postfix, '\0');  
+    printf("Postfix expression: ");
     display(&postfix);
     return 0;
 }
