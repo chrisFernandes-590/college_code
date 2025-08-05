@@ -1,5 +1,5 @@
+*.class
+*.exe
 # Ignore all .exe files
 *.out
-*.exe
 *.o
-*.class
