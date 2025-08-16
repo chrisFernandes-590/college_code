@@ -1,39 +1,89 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct Node
 {
     int data;
     struct Node *next;
-} node;
+} Node;
 
-void new_node(node *n)
+Node *create_node()
 {
-    node *newNode = (node *)malloc(sizeof(node *));
-    printf("\nEnter the data: ");
-    scanf("%d", n->data);
-    newNode->next = NULL;
+    Node *new_node = (Node *)malloc(sizeof(Node));
+    if (!new_node)
+    {
+        printf("\nMemory allocation failed");
+        exit(1);
+    }
+    printf("Enter the value of data: ");
+    scanf("%d", &new_node->data);
+    new_node->next = NULL;
+    return new_node;
 }
 
-void insert_end(node *n, int value, node *head)
+void insert_start(Node **head)
 {
-    if (head->next == NULL)
+    Node *new_node = create_node();
+    new_node->next = *head; // Points to the curr first node
+    *head = new_node;       // Point to the new node
+}
+
+void insert_end(Node **head)
+{
+    Node *temp = *head;
+    Node *new_node = create_node();
+    if (*head == NULL)
     {
-        new_node(n);
-        head->next = new_node;
+        *head = new_node;
+        return;
     }
-    else
+    while (temp->next != NULL)
     {
-        node *temp = head;
-        while (temp->next != NULL)
-        {
-        }
+        temp = temp->next;
     }
+    temp->next = new_node;
+}
+
+void insert_between(Node **head, int postion)
+{
+    Node *new_node = create_node();
+    if (*head == NULL)
+    {
+        *head = new_node;
+        return;
+    }
+    Node *prev, *curr;
+    prev = NULL;
+    curr = *head;
+    while (postion != 1)
+    {
+        prev = curr;
+        curr = curr->next;
+        postion--;
+    }
+    prev->next = new_node;
+    new_node->next = curr;
+}
+
+void display(Node *head)
+{
+    Node *temp = head;
+    while (temp)
+    {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
 }
 
 int main()
 {
-    node *head;
-    head->next = NULL;
+    Node *head = NULL; // Empty List
+    insert_start(&head);
+    insert_end(&head);
+    insert_between(&head, 2);
+    insert_between(&head, 3);
 
+    display(head);
     return 0;
 }
