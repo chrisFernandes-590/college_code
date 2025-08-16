@@ -44,7 +44,7 @@ void insert_end(Node **head)
     temp->next = new_node;
 }
 
-void insert_between(Node **head, int postion)
+void insert_between(Node **head, int position)
 {
     Node *new_node = create_node();
     if (*head == NULL)
@@ -55,14 +55,67 @@ void insert_between(Node **head, int postion)
     Node *prev, *curr;
     prev = NULL;
     curr = *head;
-    while (postion != 1)
+    while (position != 1)
     {
         prev = curr;
         curr = curr->next;
-        postion--;
+        position--;
     }
     prev->next = new_node;
     new_node->next = curr;
+}
+
+void delete_node(Node **head, int position)
+{
+    if (*head == NULL)
+    {
+        printf("The list is empty\n");
+        return;
+    }
+
+    Node *curr = *head;
+    Node *prev = NULL;
+
+    if (position == 1)
+    {
+        *head = curr->next;
+        free(curr);
+        return;
+    }
+
+    while (position > 1 && curr != NULL)
+    {
+        prev = curr;
+        curr = curr->next;
+        position--;
+    }
+
+    if (curr == NULL)
+    {
+        printf("Invalid position\n");
+        return;
+    }
+
+    prev->next = curr->next;
+    free(curr);
+}
+
+int count_nodes(Node **head)
+{
+    int count = 0;
+    if (*head == NULL)
+    {
+        printf("List is empty!");
+        return count;
+    }
+
+    Node *tmp = *head;
+    while (tmp != NULL)
+    {
+        count++;
+        tmp = tmp->next;
+    }
+    return count;
 }
 
 void display(Node *head)
@@ -76,14 +129,50 @@ void display(Node *head)
     printf("NULL\n");
 }
 
+void remove_duplicates(Node **head)
+{
+    if (*head == NULL)
+        return;
+
+    Node *curr = *head;
+    while (curr != NULL)
+    {
+        Node *prev = curr;
+        Node *tmp = curr->next;
+
+        while (tmp != NULL)
+        {
+            if (tmp->data == curr->data)
+            {
+                prev->next = tmp->next;
+                free(tmp);
+                tmp = prev->next;
+            }
+            else
+            {
+                prev = tmp;
+                tmp = tmp->next;
+            }
+        }
+        curr = curr->next;
+    }
+}
 int main()
 {
     Node *head = NULL; // Empty List
     insert_start(&head);
     insert_end(&head);
-    insert_between(&head, 2);
-    insert_between(&head, 3);
+    insert_end(&head);
+    insert_end(&head);
+    insert_end(&head);
 
     display(head);
+
+    delete_node(&head, 4);
+    remove_duplicates(&head);
+    display(head);
+
+    int count = count_nodes(&head);
+    printf("Total nodes: %d\n", count);
     return 0;
 }
