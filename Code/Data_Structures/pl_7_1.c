@@ -7,7 +7,7 @@ typedef struct Node
     struct Node *next;
 } Node;
 
-Node *createNode(int data)
+struct Node *createNode(int data)
 {
     struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
     newNode->data = data;
