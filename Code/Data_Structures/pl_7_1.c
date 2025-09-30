@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Node
+typedef struct Node
 {
     int data;
     struct Node *next;
-};
+} Node;
 
 struct Node *createNode(int data)
 {
@@ -15,7 +15,7 @@ struct Node *createNode(int data)
     return newNode;
 }
 
-int isCircular(struct Node *head)
+int isCircular(Node *head)
 {
     if (head == NULL)
         return 0;
@@ -29,9 +29,9 @@ int isCircular(struct Node *head)
 
 int main()
 {
-    struct Node *head = createNode(1);
-    struct Node *second = createNode(2);
-    struct Node *third = createNode(3);
+    Node *head = createNode(1);
+    Node *second = createNode(2);
+    Node *third = createNode(3);
 
     head->next = second;
     second->next = third;

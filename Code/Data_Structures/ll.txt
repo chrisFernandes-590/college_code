@@ -1,0 +1,59 @@
+// Split list
+
+Node* splitList(Node *head, Node **head1, Node **head2){
+    if(head == NULL){
+        *head1 = NULL;
+        *head2 = NULL;
+        return;
+    }
+    int count = countNodes(head);
+    int mid = count / 2;
+    Node* temp = head;
+    for(int i = 1; i < mid; i++){
+        temp = temp->next;
+    }
+    *head1 = head;
+    *head2 = temp-next;
+    temp->next = NULL;
+}
+
+// concatenate list
+
+Node* concatenate(Node* head1, Node* head2){
+    if(head1 == NULL)return head2;
+    if(head2 == NULL)return head1;
+    Node *temp = head1;
+    while(temp->next != Null){
+        temp = temp-next;
+    }
+    temp->next = head2;
+    return head1;
+}
+
+// copy
+
+Node* copy(Node* head){
+    if(*head == NUll)return NULL;
+    Node *newHead = createNode(head->data);
+    Node* temp1 = head-next;
+    Node* temp2 = newHead;
+    while(temp1 != null){
+        temp2-next = createNode(temp1->data);
+        temp2 = temp2->next;
+        temp1 = temp1->next;
+    }
+    return newHead;
+}
+
+// reverse
+
+Node* rev(Node* head){
+    Node *p = NULL, *q = head, *r = NULL; 
+    while(*q != Null){
+        r = q->next;
+        q-next = p;
+        p = q;
+        q = r;
+    }
+    return p;
+}

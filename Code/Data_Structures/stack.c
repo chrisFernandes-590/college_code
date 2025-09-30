@@ -1,5 +1,6 @@
 #include <stdio.h>
 #define SIZE 50
+// push, display, pop, stackTop, 
 
 typedef struct
 {
