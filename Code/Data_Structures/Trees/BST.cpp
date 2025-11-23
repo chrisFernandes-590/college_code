@@ -61,6 +61,52 @@ Node* iterativeInsert(Node* root, int key){
     return root;
 }
 
+//Recursive Delete Function
+Node* deleteRecursive(Node* root, int key){
+
+    if(root == NULL) return NULL; //Empty tree or not found
+
+    if(key < root->data){
+        root->left = deleteRecursive(root->left, key);
+    }
+    else if(key > root->data){
+        root->right = deleteRecursive(root->right, key);
+    }
+
+    else{ //Node found
+
+        //Case 1: No children (Leaf Node)
+        if(root->left == NULL && root->right == NULL){
+            delete root;
+            return NULL;
+        }
+
+        //Case 2: One child
+        if(root->left == NULL){
+            Node* child = root->right;
+            delete root;
+            return child;
+        }
+        else if(root->right == NULL){
+            Node* child = root->left;
+            delete root;
+            return child;
+        }
+
+        //Case 3: Two children → inorder predecessor (max in left subtree)
+        Node* pred = root->left;
+        while(pred->right != NULL)
+            pred = pred->right;
+
+        root->data = pred->data;  //Copy predecessor data
+
+        root->left = deleteRecursive(root->left, pred->data);
+    }
+
+    return root;
+}
+
+
 Node* deleteIterative(Node* root, int key) {
     if (root == NULL) {
         cout << "Tree is empty!\n";
@@ -167,5 +213,6 @@ Node* iterativeSearch(Node* root, int key){
 
     return NULL; //Not found
 }
+
 
 
