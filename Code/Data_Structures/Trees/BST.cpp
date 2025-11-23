@@ -12,6 +12,7 @@ Node* createNode(int data){ //Seperate function for creating a new node
     newNode->data = data;
     newNode->left = NULL;
     newNode->right = NULL;
+    return newNode;
 }
 
 //Recursive Insert Function
@@ -135,4 +136,36 @@ Node* deleteIterative(Node* root, int key) {
     }
 
     return root;
+
 }
+
+//Recursive Search Function
+Node* search(Node* root, int key){
+    if(root == NULL) return NULL; //Not found
+    
+    if(root->data == key) return root; //Found
+    
+    if(root->data < key)
+        return search(root->right, key); //Keep returning the result upwards
+    else
+        return search(root->left, key);
+}
+
+//Iterative Search Function
+Node* iterativeSearch(Node* root, int key){
+    Node* temp = root;
+
+    while(temp != NULL){
+        if(temp->data == key)
+            return temp; //Found
+
+        if(temp->data < key)
+            temp = temp->right;
+        else
+            temp = temp->left;
+    }
+
+    return NULL; //Not found
+}
+
+
