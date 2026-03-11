@@ -75,5 +75,34 @@ void insertAtEnd(int data){
     head = new;
     return;
   }
+  Node* temp = head;
+  while(temp->next != NULL){
+    temp = temp->next;
+  }
+  temp->next = new;
+}
+
+// insert at pos
+void insertAtPos(int pos, int data){
+  Node* new = createNode(data)
+  if(pos < 0) return;
+  if(pos == 0){
+    new->next = head;
+    head = new;
+    return;
+  }
+  Node* temp = head;
+  for(int i = 1; temp != NULL && i < pos - 1; i++){
+    temp = temp->next;
+  }
+  if(temp == NULL) return;
+
+  new->next = temp->next;
+  temp->next = new;
+
+}
+
+void deleteBeg(){
+  
 }
 ```
