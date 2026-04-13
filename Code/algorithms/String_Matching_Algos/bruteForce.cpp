@@ -2,7 +2,7 @@
 #include<vector>
 using namespace std;
 
-/*
+/* 
 BRUTE FORCE STRING MATCHING
 
 Idea:
@@ -10,8 +10,12 @@ Idea:
 - For each index, check if full pattern matches
 - If yes → store that index
 
-Time Complexity: O(N * M)
-Space Complexity: O(K)  (K = number of matches stored)
+Time Complexity:
+- Best Case    : O(N)      (pattern mismatches immediately at each index)
+- Average Case : O(N * M)  (no guarantee; many positions may partially match)
+- Worst Case   : O(N * M)  (e.g., repetitive text causing near full matches)
+
+Space Complexity: O(K), where K = number of matching indices (depends upon input)
 */
 
 void bruteForce(string &pattern, string &text, int pattLen, int textLen, vector<int> &occurrences){
