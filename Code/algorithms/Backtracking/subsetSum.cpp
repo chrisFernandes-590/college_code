@@ -93,7 +93,17 @@ void sum(int &wsf, int &tpl, int reqSum, int idx,
     // 🔹 NOT PICK current element
     // (Defensive coding: ensure clean state)
     soln[idx] = 0;
+
+   // Since we are moving to next index, remove current element from tpl
+    /* Even if we skip elements, we should reduce tpl because they’re gone from this path 
+      since tpl tracks remaining usable elements from current index */
+    tpl -= arr[idx];
+
     sum(wsf, tpl, reqSum, idx + 1, arr, soln, ans);
+
+    // Backtrack: add the element back to restore original tpl
+    tpl += arr[idx];
+
 
     // 🔹 PICK current element
     soln[idx] = 1;
