@@ -37,6 +37,21 @@ void modifiedBubbleSort(int arr[], int n)
 
 void selectionSort(int arr[], int n) {}
 
+void insertionsSort(int arr[], int n)
+{
+  for (int i = 1; i < n - 1; i++)
+  {
+    int key = arr[i];
+    int j = i - 1;
+    while (j >= 0 && arr[j] > key)
+    {
+      arr[j + 1] = arr[j];
+      j--;
+    }
+    arr[j + 1] = key;
+  }
+}
+
 bool isSorted(int arr[], int n)
 {
   for (int i = 0; i < n - 1; i++)
@@ -53,6 +68,8 @@ void printArray(int arr[], int n)
     cout << arr[i] << " ";
   cout << endl;
 }
+
+
 
 void runTest(int arr[], int n, string testName, string algorithmName, void (*sortFunction)(int[], int))
 {
